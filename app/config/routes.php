@@ -4,7 +4,6 @@ use app\controllers\GestionLivraisonController;
 use app\controllers\BeneficeControllers;
 use app\controllers\InfoController;
 use app\controllers\ZoneLivraisonControllers;
-use app\middlewares\SecurityHeadersMiddleware;
 use flight\Engine;
 use flight\net\Router;
 
@@ -17,7 +16,11 @@ use flight\net\Router;
 $router->group('', function(Router $router) use ($app) {
 	$gestioncontroller = new GestionLivraisonController($app);
 	$router->get('/',function(){
-		Flight::render('accueil');
+		Flight::render('login');
+	});
+
+	$router->get('/modele',function(){
+		Flight::render('utilisateur/Modele');
 	});
 
 	$router->get('/gestion/livraison', [$gestioncontroller,'getinfopourinsertion']);
@@ -42,4 +45,4 @@ $router->group('', function(Router $router) use ($app) {
 	$router->get('/zone/gestion', [$zonecontroller ,'getAllZones']);
 	$router->get('/zone/supprimer/@id', [$zonecontroller, 'supprimerzone']);
 	$router->get('/zone/ajouter/@id', [$zonecontroller, 'insererzone']);
-}, [ SecurityHeadersMiddleware::class ]);
+});
